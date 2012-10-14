@@ -13,6 +13,7 @@
 \usepackage{graphicx}
 \usepackage{ucs}
 \usepackage[utf8x]{inputenc}
+\usepackage{ctable}
 
 % needed for markdown enumerations to work
 \usepackage{enumerate}
@@ -120,66 +121,33 @@
 
 \begin{document}
 
-\section{Python in HPC}
+\begin{center}
+{\bf \Large Introducing Python}
 
+{\bf \large Python in HPC}
 
-\subsection{Supercomputing 2012}
+{\bf TACC Training, Oct. 15, 2012}
+\end{center}
 
-Presenters:
-
+\noindent Presenters:
 
 \noindent {\bf Andy R. Terrel, PhD}\\
 Texas Advanced Computing Center\\
-University of
-Texas at Austin\\[2em]
+University of Texas at Austin\\
 
-\noindent {\bf Travis Oliphant, PhD}\\
-Continuum Analytics\\[2em]
+\noindent {\bf Yaakoub El Khamra}\\
+Texas Advanced Computing Center\\
+University of Texas at Austin\\
 
-\noindent {\bf Aron Ahmadia, PhD}\\
-Supercomputing Laboratory\\
-King Abdullah University of Science and Technoglogy\\[2em]
-\begin{center}
+\href{http://creativecommons.org/licenses/by/3.0/deed.en\_US}{\includegraphics{figures/creative_commons_logo.png}}\\
 
-\href{http://creativecommons.org/licenses/by/3.0/deed.en\_US}{\includegraphics{figures/creative_commons_logo.png}}\\[2em]
-
-\noindent Python in HPC Tutorial by Terrel, Oliphant, and Ahmadia is licensed
+\noindent Python in HPC Tutorial by Terrel, and El Khamra is licensed
 under a Creative Commons Attribution 3.0 Unported License. \\[2em]
 
 \href{http://www.tacc.utexas.edu}{\includegraphics[scale=0.8]{figures/TACC_logo.png}} \qquad
-\href{http://www.continuum.io}{\includegraphics[scale=.3]{figures/continuum.png}} \qquad
-\href{http://www.kaust.edu.sa/}{\includegraphics[scale=.3]{figures/kaust.png}}
-\end{center}
 
 \newpage
 
-\subsection{Updated Tutorial}
-
-These presentation materials are being continuously updated as we refine
-and improve our demonstrats. To get the latest version of this tutorial
-you can:
-
-\begin{enumerate}[1)]
-\item
-  Download a zip or tar ball from the
-  \href{https://github.com/aterrel/HPCPythonSC2012/tags}{github SC2012
-  tag}:
-
-  wget --no-check-certificate
-  https://github.com/aterrel/HPCPythonSC2012/zipball/SC2012
-\item
-  Checkout from git
-
-  git clone https://github.com/aterrel/HPCPythonSC2012.git
-\item
-  View the html version on
-  \href{http://nbviewer.ipython.org/urls/raw.github.com/aterrel/HPCPythonSC2012/master/01_Introducing_Python.ipynb}{nbviewer}.
-\item
-  As a last resort, head to https://github.com/aterrel/HPCPythonSC2012
-  for updated instructions (see the README at the bottom of the page).
-\end{enumerate}
-
-\newpage
 \subsection{Interacting with the Tutorial Slides}
 
 This tutorial is an interactive worksheet designed to encourage you to
@@ -208,11 +176,34 @@ $ ipython notebook --pylab=inline
 \end{verbatim}
 
 We heartily endorse the
-\href{http://www.enthought.com/products/epd\_free.php}{Free Enthought
-Python Distribution}.
+\href{https://store.continuum.io/cshop/anaconda}{Anaconda distribution}
+and the \href{http://www.enthought.com/products/epd\_free.php}{Free
+Enthought Python Distribution}.
 
 \newpage
-\subsection{Introduction to Python (This Notebook)}
+
+\subsection{Presentation mode}
+
+ The slide show mode is only supported by an IPython development branch
+version. To get it I recommend cloning from the official branch, adding
+Matthias Carreau's remote, fetching and using his branch
+slideshow\_extension2. Here are the commands:
+
+\begin{verbatim}
+git clone git://github.com/ipython/ipython.git # Official clone
+cd ipython
+git remote add carreau git://github.com/Carreau/ipython.git # Matthias' branch
+git fetch carreau # Fetch the branches
+git checkout carreau/slideshow_extension2 # Checkout the slideshow extension
+python setup.py develop # Install the development version
+ipython notebook # Check out the slideshows.
+\end{verbatim}
+
+
+
+\newpage
+
+\section{Introduction to Python (This Notebook)}
 
 \subsubsection{Objectives}
 
@@ -227,8 +218,15 @@ Python Distribution}.
 \end{enumerate}
 
 The first part of this introduction is adapted from \emph{Python
-Scripting for Computational Science} by Hans Petter Langtangen and is
-based on material from Nathan Collier.
+Scripting for Computational Science} by Hans Petter Langtangen, material
+from Nathan Collier, and \href{http://scipy-lectures.github.com/}{the
+SciPy Lecture Notes}.
+
+\begin{figure}[htbp]
+\centering
+\includegraphics{figures/books.png}
+\caption{Books}
+\end{figure}
 
 \subsection{Scripting vs Traditional programming}
 
@@ -246,6 +244,7 @@ A major thrust of scripting is that you can automate many tasks that
 otherwise you would do by hand.
 
 \newpage
+
 \subsection{Has this ever happened to you?}
 
 \subsubsection{Scenario 1}
@@ -266,6 +265,7 @@ that you wrote on your second laptop and hours more again creating and
 polishing the charts.
 
 \newpage
+
 \subsection{Buyer Beware}
 
 Learning to automate many of these common tasks can greatly increase
@@ -280,6 +280,7 @@ the same thing.
 \end{figure}
 
 \newpage
+
 \subsection{Why scripting is useful}
 
 There are perhaps many reasons, here we list a few:
@@ -302,6 +303,7 @@ There are perhaps many reasons, here we list a few:
 \end{itemize}
 
 \newpage
+
 \subsection{Is Python \textgreater{} MATLAB?}
 
 \subsubsection{Similarities}
@@ -340,6 +342,7 @@ There are perhaps many reasons, here we list a few:
 \end{itemize}
 
 \newpage
+
 \subsection{The right tool for the job}
 
 Many times people are looking for an easy way out. Scripting is easier
@@ -378,9 +381,11 @@ tool is right for the job?
 \end{itemize}
 
 \newpage
+
 \section{Some Sample Applications}
 
 \newpage
+
 \subsection{Teaching the finite element method}
 
 \subsubsection{Stiffness matrix computation}
@@ -392,6 +397,7 @@ tool is right for the job?
 \end{figure}
 
 \newpage
+
 \subsection{Monitor program progress}
 
 \subsubsection{Python parses a datafile and makes plots of current
@@ -404,6 +410,7 @@ progress}
 \end{figure}
 
 \newpage
+
 \subsection{Problem prototypes}
 
 \subsubsection{Nonlinear, time dependent problem}
@@ -415,6 +422,7 @@ progress}
 \end{figure}
 
 \newpage
+
 \subsection{Problem prototypes}
 
 \subsubsection{Method for fitting surface to data}
@@ -426,6 +434,7 @@ progress}
 \end{figure}
 
 \newpage
+
 \subsection{Structural program}
 
 \subsubsection{Python manages floors and columns}
@@ -437,6 +446,7 @@ progress}
 \end{figure}
 
 \newpage
+
 \subsection{Auto-generation of results}
 
 \subsubsection{Python runs C code, post-processes the results, and
@@ -449,10 +459,12 @@ generates a LaTeX table}
 \end{figure}
 
 \newpage
+
 \section{Beginner's Guide}
 
 \newpage
-\subsection{Script 1}
+
+\subsection{Scientific Hello World}
 
 \begin{codecell}
 \begin{codeinput}
@@ -472,7 +484,8 @@ Hello world, sin(1.570796)=1.000000
 \end{codeoutput}
 \end{codecell}
 \newpage
-\subsection{Script 2}
+
+\subsection{Simple I/O}
 
 \begin{codecell}
 \begin{codeinput}
@@ -504,6 +517,7 @@ g.close()
 \end{codeinput}
 \end{codecell}
 \newpage
+
 \subsection{How to format the print statement, just like C!}
 
 \begin{figure}[htbp]
@@ -513,7 +527,8 @@ g.close()
 \end{figure}
 
 \newpage
-\subsection{Script 3}
+
+\subsection{Interacting with the system}
 
 \begin{codecell}
 \begin{codeinput}
@@ -527,17 +542,19 @@ if fail: print 'You do not have the date command'; sys.exit()
 for line in lines:
     line = line.split()
     print "The current time is %s on %s %s, %s" % (line[3],line[2],line[1],line[-1])
-
 \end{lstlisting}
 \end{codeinput}
 \begin{codeoutput}
 \begin{verbatim}
-The current time is 16:32:23 on 9 Sep, 2012
+The current time is 21:14:25 on 13 Oct, 2012
 \end{verbatim}
 \end{codeoutput}
 \end{codecell}
 \newpage
-\subsection{A bib-file (see data/test.bib)}
+
+\subsection{Regular expressions}
+
+\subsubsection{A bib-file (see data/test.bib)}
 
 \begin{verbatim}
 @Book{Langtangen2011,
@@ -553,9 +570,6 @@ The current time is 16:32:23 on 9 Sep, 2012
   year =      {2010}
 }
 \end{verbatim}
-
-\newpage
-\subsection{Script 4}
 
 \begin{codecell}
 \begin{codeinput}
@@ -582,7 +596,648 @@ The title is 'Python Scripting for Computational Science'
 \end{codeoutput}
 \end{codecell}
 \newpage
-\subsection{Pattern Formation}
+
+\section{Arrays}
+
+\textbf{Python} has built-in:
+
+containers: lists (costless insertion and append), dictionaries (fast
+lookup)\\high-level number objects: integers, floating point
+
+\textbf{Numpy} is:
+
+extension package to Python for multi-dimensional arrays\\closer to
+hardware (efficiency)\\designed for scientific computation (convenience)
+
+\begin{codecell}
+\begin{codeinput}
+\begin{lstlisting}
+a = array([0,1,2,3,4])
+a
+\end{lstlisting}
+\end{codeinput}
+\begin{codeoutput}
+\begin{verbatim}
+array([0, 1, 2, 3, 4])
+\end{verbatim}
+\end{codeoutput}
+\end{codecell}
+\begin{codecell}
+\begin{codeinput}
+\begin{lstlisting}
+print a.ndim # Dimensionality
+print a.shape # Shape
+\end{lstlisting}
+\end{codeinput}
+\begin{codeoutput}
+\begin{verbatim}
+1
+(5,)
+\end{verbatim}
+\end{codeoutput}
+\end{codecell}
+\begin{codecell}
+\begin{codeinput}
+\begin{lstlisting}
+b = np.array([[0, 1, 2], [3, 4, 5]])
+print b
+print b.ndim
+print b.shape
+\end{lstlisting}
+\end{codeinput}
+\begin{codeoutput}
+\begin{verbatim}
+[[0 1 2]
+ [3 4 5]]
+2
+(2, 3)
+\end{verbatim}
+\end{codeoutput}
+\end{codecell}
+\newpage
+
+\subsection{Common Arrays}
+
+\begin{codecell}
+\begin{codeinput}
+\begin{lstlisting}
+print arange(10) # Like range [0, 1, ..., 9]
+print arange(1,9, 2) # [1, 3, 5, 7]
+\end{lstlisting}
+\end{codeinput}
+\begin{codeoutput}
+\begin{verbatim}
+[0 1 2 3 4 5 6 7 8 9]
+[1 3 5 7]
+\end{verbatim}
+\end{codeoutput}
+\end{codecell}
+\begin{codecell}
+\begin{codeinput}
+\begin{lstlisting}
+print linspace(0, 1, 6) # A linear space of [0,1] with 6 pts
+print linspace(0, 1, 6, endpoint=False) # [0,1[
+\end{lstlisting}
+\end{codeinput}
+\begin{codeoutput}
+\begin{verbatim}
+[ 0.   0.2  0.4  0.6  0.8  1. ]
+[ 0.          0.16666667  0.33333333  0.5         0.66666667  0.83333333]
+\end{verbatim}
+\end{codeoutput}
+\end{codecell}
+\begin{codecell}
+\begin{codeinput}
+\begin{lstlisting}
+print np.ones((3,3)) # 3 X 3 2D array of 1's
+\end{lstlisting}
+\end{codeinput}
+\begin{codeoutput}
+\begin{verbatim}
+[[ 1.  1.  1.]
+ [ 1.  1.  1.]
+ [ 1.  1.  1.]]
+\end{verbatim}
+\end{codeoutput}
+\end{codecell}
+\begin{codecell}
+\begin{codeinput}
+\begin{lstlisting}
+print np.eye(3)
+\end{lstlisting}
+\end{codeinput}
+\begin{codeoutput}
+\begin{verbatim}
+[[ 1.  0.  0.]
+ [ 0.  1.  0.]
+ [ 0.  0.  1.]]
+\end{verbatim}
+\end{codeoutput}
+\end{codecell}
+\begin{codecell}
+\begin{codeinput}
+\begin{lstlisting}
+print np.diag(arange(4))
+\end{lstlisting}
+\end{codeinput}
+\begin{codeoutput}
+\begin{verbatim}
+[[0 0 0 0]
+ [0 1 0 0]
+ [0 0 2 0]
+ [0 0 0 3]]
+\end{verbatim}
+\end{codeoutput}
+\end{codecell}
+\begin{codecell}
+\begin{codeinput}
+\begin{lstlisting}
+print random.rand(4) # Uniform distribution
+print random.randn(4) # Gaussian distribution
+\end{lstlisting}
+\end{codeinput}
+\begin{codeoutput}
+\begin{verbatim}
+[ 0.72129428  0.34175057  0.7831168   0.25157102]
+[-0.604022    1.41449551 -0.94909735  2.1459319 ]
+\end{verbatim}
+\end{codeoutput}
+\end{codecell}
+\newpage
+
+\subsection{Other Numpy Features to be aware of}
+
+\begin{itemize}
+\item
+  Reshaping
+\end{itemize}
+
+\begin{codecell}
+\begin{codeinput}
+\begin{lstlisting}
+arr = arange(1000000)
+arr2 = arr.reshape((10,100000))
+print(arr2)
+\end{lstlisting}
+\end{codeinput}
+\begin{codeoutput}
+\begin{verbatim}
+[[     0      1      2 ...,  99997  99998  99999]
+ [100000 100001 100002 ..., 199997 199998 199999]
+ [200000 200001 200002 ..., 299997 299998 299999]
+ ..., 
+ [700000 700001 700002 ..., 799997 799998 799999]
+ [800000 800001 800002 ..., 899997 899998 899999]
+ [900000 900001 900002 ..., 999997 999998 999999]]
+\end{verbatim}
+\end{codeoutput}
+\end{codecell}
+\begin{itemize}
+\item
+  Memory Views
+\end{itemize}
+
+\begin{codecell}
+\begin{codeinput}
+\begin{lstlisting}
+arr2.view?
+\end{lstlisting}
+\end{codeinput}
+\end{codecell}
+\begin{itemize}
+\item
+  Index Slicing
+\end{itemize}
+
+\begin{codecell}
+\begin{codeinput}
+\begin{lstlisting}
+x = np.arange(0, 20, 2); y = x**2
+((y[1:] - y[:-1]) / (x[1:] - x[:-1])) # dy/dx
+\end{lstlisting}
+\end{codeinput}
+\begin{codeoutput}
+\begin{verbatim}
+array([ 2,  6, 10, 14, 18, 22, 26, 30, 34])
+\end{verbatim}
+\end{codeoutput}
+\end{codecell}
+\begin{codecell}
+\begin{codeinput}
+\begin{lstlisting}
+((y[2:] - y[:-2])/(x[2:] - x[:-2])) # d^2y/dx^2 via center differencing
+\end{lstlisting}
+\end{codeinput}
+\begin{codeoutput}
+\begin{verbatim}
+array([ 4,  8, 12, 16, 20, 24, 28, 32])
+\end{verbatim}
+\end{codeoutput}
+\end{codecell}
+\begin{itemize}
+\item
+  Fancy Indexing
+\end{itemize}
+
+\begin{codecell}
+\begin{codeinput}
+\begin{lstlisting}
+evens = arr[arr%2 == 0]
+print(evens)
+\end{lstlisting}
+\end{codeinput}
+\begin{codeoutput}
+\begin{verbatim}
+[     0      2      4 ..., 999994 999996 999998]
+\end{verbatim}
+\end{codeoutput}
+\end{codecell}
+\newpage
+
+\subsection{LinAlg, FFTs, and Random numbers}
+
+\begin{codecell}
+\begin{codeinput}
+\begin{lstlisting}
+dot(arange(10), arange(10))
+\end{lstlisting}
+\end{codeinput}
+\begin{codeoutput}
+\begin{verbatim}
+285
+\end{verbatim}
+\end{codeoutput}
+\end{codecell}
+\begin{codecell}
+\begin{codeinput}
+\begin{lstlisting}
+dot(arange(9).reshape(3,3),
+    arange(9).reshape(3,3))
+\end{lstlisting}
+\end{codeinput}
+\begin{codeoutput}
+\begin{verbatim}
+array([[ 15,  18,  21],
+       [ 42,  54,  66],
+       [ 69,  90, 111]])
+\end{verbatim}
+\end{codeoutput}
+\end{codecell}
+\begin{codecell}
+\begin{codeinput}
+\begin{lstlisting}
+np.fft?
+\end{lstlisting}
+\end{codeinput}
+\end{codecell}
+\begin{codecell}
+\begin{codeinput}
+\begin{lstlisting}
+np.linalg?
+\end{lstlisting}
+\end{codeinput}
+\end{codecell}
+\begin{codecell}
+\begin{codeinput}
+\begin{lstlisting}
+np.random?
+\end{lstlisting}
+\end{codeinput}
+\end{codecell}
+\newpage
+
+\section{Quick Visualization / MatPlotLib}
+
+How quickly can we plot 10K numbers?
+
+\begin{codecell}
+\begin{codeinput}
+\begin{lstlisting}
+_ = hist(random.randn(100000), 100)
+\end{lstlisting}
+\end{codeinput}
+\begin{codeoutput}
+\begin{center}
+\includegraphics[width=6in]{01_Introducing_Python_files/01_Introducing_Python_fig_00.png}
+\par
+\end{center}
+\end{codeoutput}
+\end{codecell}
+\newpage
+
+\subsection{Basic Plotting}
+
+\begin{codecell}
+\begin{codeinput}
+\begin{lstlisting}
+_ = plot(range(100))
+_ = xlabel("measured")
+_ = ylabel("calculated")
+grid(True)
+\end{lstlisting}
+\end{codeinput}
+\begin{codeoutput}
+\begin{center}
+\includegraphics[width=6in]{01_Introducing_Python_files/01_Introducing_Python_fig_01.png}
+\par
+\end{center}
+\end{codeoutput}
+\end{codecell}
+\begin{codecell}
+\begin{codeinput}
+\begin{lstlisting}
+x = [val*.01 for val in range(100)]  # [0, .01, .02, ..., .98, .99]
+linear = [val for val in x] 
+square = [val**2 for val in x]
+_ = plot(x, linear, x, square)
+\end{lstlisting}
+\end{codeinput}
+\begin{codeoutput}
+\begin{center}
+\includegraphics[width=6in]{01_Introducing_Python_files/01_Introducing_Python_fig_02.png}
+\par
+\end{center}
+\end{codeoutput}
+\end{codecell}
+\begin{codecell}
+\begin{codeinput}
+\begin{lstlisting}
+num_vals = 10
+x = [float(val)/num_vals for val in range(num_vals)]  # [0, .01, .02, ..., .98, .99]
+linear = [val for val in x] 
+square = [val**2 for val in x]
+_= plot(x, linear, 'g:+', x, square, 'r--o')
+\end{lstlisting}
+\end{codeinput}
+\begin{codeoutput}
+\begin{center}
+\includegraphics[width=6in]{01_Introducing_Python_files/01_Introducing_Python_fig_03.png}
+\par
+\end{center}
+\end{codeoutput}
+\end{codecell}
+\begin{codecell}
+\begin{codeinput}
+\begin{lstlisting}
+num_vals = 10
+x = [float(val)/num_vals for val in range(num_vals)]  # [0, .01, .02, ..., .98, .99]
+linear = [val for val in x] 
+square = [val**2 for val in x]
+_ = plot(x, linear, 'g:+', x, square, 'r--o')
+_ = legend(('linear', 'square'), loc='upper left')
+\end{lstlisting}
+\end{codeinput}
+\begin{codeoutput}
+\begin{center}
+\includegraphics[width=6in]{01_Introducing_Python_files/01_Introducing_Python_fig_04.png}
+\par
+\end{center}
+\end{codeoutput}
+\end{codecell}
+\begin{codecell}
+\begin{codeinput}
+\begin{lstlisting}
+_ = plot(linear)
+_ = axes([0.2, 0.5, 0.25, 0.25])
+_ = plot(square)
+\end{lstlisting}
+\end{codeinput}
+\begin{codeoutput}
+\begin{center}
+\includegraphics[width=6in]{01_Introducing_Python_files/01_Introducing_Python_fig_05.png}
+\par
+\end{center}
+\end{codeoutput}
+\end{codecell}
+\newpage
+\section{SciPy: Collection of High-Level Tools}
+
+\begin{itemize}
+\item
+  mathematical algorithms and convenience functions built on the Numpy,
+\item
+  organized into subpackages covering different scientific computing
+  domains,
+\item
+  a data-processing and system-prototyping environment rivaling sytems
+  such as MATLAB, IDL, Octave, R-Lab, and SciLab
+\end{itemize}
+
+\newpage
+\subsection{SciPy: Collection of High-Level Tools}
+
+\begin{itemize}
+\item
+  File IO (scipy.io)
+\item
+  Special functions (scipy.special)
+\item
+  Integration (scipy.integrate)
+\item
+  Optimization (scipy.optimize)
+\item
+  Interpolation (scipy.interpolate)
+\item
+  Fourier Transforms (scipy.fftpack)
+\item
+  Signal Processing (scipy.signal)
+\item
+  Linear Algebra (scipy.linalg)
+\item
+  Sparse Eigenvalue Problems with ARPACK
+\item
+  Statistics (scipy.stats)
+\item
+  Multi-dimensional image processing (scipy.ndimage)
+\item
+  Weave (scipy.weave)
+\end{itemize}
+
+\newpage
+\subsection{scipy.io}
+
+\begin{codecell}
+\begin{codeinput}
+\begin{lstlisting}
+import scipy
+from scipy import io as spio
+a = np.ones((3, 3))
+spio.savemat('file.mat', {'a': a}) # savemat expects a dictionary
+data = spio.loadmat('file.mat', struct_as_record=True)
+data['a']
+
+\end{lstlisting}
+\end{codeinput}
+\begin{codeoutput}
+\begin{verbatim}
+/opt/local/Library/Frameworks/Python.framework/Versions/2.7/lib/python2.7/site-packages/scipy/io/matlab/mio.py:266: FutureWarning: Using oned_as default value ('column') This will change to 'row' in future versions
+  oned_as=oned_as)
+\end{verbatim}
+\begin{verbatim}
+array([[ 1.,  1.,  1.],
+       [ 1.,  1.,  1.],
+       [ 1.,  1.,  1.]])
+\end{verbatim}
+\end{codeoutput}
+\end{codecell}
+Also see:
+
+\begin{itemize}
+\item
+  Images
+\item
+  IDL Files
+\item
+  Matrix Market Files
+\item
+  Wav files
+\end{itemize}
+
+\newpage
+\subsection{scipy.special}
+
+\begin{itemize}
+\item
+  Bessel function, such as scipy.special.jn() (nth integer order Bessel
+  function)
+\item
+  Elliptic function (scipy.special.ellipj() for the Jacobian elliptic
+  function, \ldots{})
+\item
+  Gamma function: scipy.special.gamma(), also note
+  scipy.special.gammaln() which will give the log of Gamma to a higher
+  numerical precision.
+\item
+  Erf, the area under a Gaussian curve: scipy.special.erf()
+\end{itemize}
+
+\begin{codecell}
+\begin{codeinput}
+\begin{lstlisting}
+from scipy.special import jn
+x = np.linspace(0, 1, 10)
+print [jn(val, 1.0) for val in x]
+
+\end{lstlisting}
+\end{codeinput}
+\begin{codeoutput}
+\begin{verbatim}
+[0.76519768655796649, 0.77042135015704238, 0.75775886140714455, 0.73087640216944849, 0.69324418101264496, 0.64801456180958794, 0.59794997367362868, 0.54539073261127002, 0.49225331977915776, 0.44005058574493355]
+\end{verbatim}
+\end{codeoutput}
+\end{codecell}
+\begin{codecell}
+\begin{codeinput}
+\begin{lstlisting}
+from scipy import *
+from scipy.special import jn, jn_zeros
+def drumhead_height(n, k, distance, angle, t):
+    nth_zero = jn_zeros(n, k)
+    return cos(t)*cos(n*angle)*jn(n, distance*nth_zero)
+theta = r_[0:2*pi:50j]
+radius = r_[0:1:50j]
+x = array([r*cos(theta) for r in radius])
+y = array([r*sin(theta) for r in radius])
+z = array([drumhead_height(1, 1, r, theta, 0.5) for r in radius])
+\end{lstlisting}
+\end{codeinput}
+\end{codecell}
+\begin{codecell}
+\begin{codeinput}
+\begin{lstlisting}
+from mpl_toolkits.mplot3d import Axes3D
+from matplotlib import cm
+fig = pylab.figure()
+ax = Axes3D(fig)
+ax.plot_surface(x, y, z, rstride=1, cstride=1, cmap=cm.jet)
+_ = ax.set_xlabel('X')
+_ = ax.set_ylabel('Y')
+_ = ax.set_zlabel('Z')
+\end{lstlisting}
+\end{codeinput}
+\begin{codeoutput}
+\begin{center}
+\includegraphics[width=6in]{01_Introducing_Python_files/01_Introducing_Python_fig_06.png}
+\par
+\end{center}
+\end{codeoutput}
+\end{codecell}
+
+\newpage
+\subsection{scipy.linalg}
+
+\begin{itemize}
+\item
+  Matrix class (all routines still work with 2D NumPy arrays)
+\item
+  Basic Linear Algebra
+\item
+  Decompositions
+\item
+  Matrix Functions
+\item
+  Special matrices
+\end{itemize}
+
+\begin{codecell}
+\begin{codeinput}
+\begin{lstlisting}
+A = mat('[1 3 5; 2 5 1; 2 3 8]')
+A
+\end{lstlisting}
+\end{codeinput}
+\begin{codeoutput}
+\begin{verbatim}
+matrix([[1, 3, 5],
+        [2, 5, 1],
+        [2, 3, 8]])
+\end{verbatim}
+\end{codeoutput}
+\end{codecell}
+\begin{codecell}
+\begin{codeinput}
+\begin{lstlisting}
+A.I
+\end{lstlisting}
+\end{codeinput}
+\begin{codeoutput}
+\begin{verbatim}
+matrix([[-1.48,  0.36,  0.88],
+        [ 0.56,  0.08, -0.36],
+        [ 0.16, -0.12,  0.04]])
+\end{verbatim}
+\end{codeoutput}
+\end{codecell}
+\begin{codecell}
+\begin{codeinput}
+\begin{lstlisting}
+from scipy import linalg
+linalg.inv(A)
+\end{lstlisting}
+\end{codeinput}
+\begin{codeoutput}
+\begin{verbatim}
+array([[-1.48,  0.36,  0.88],
+       [ 0.56,  0.08, -0.36],
+       [ 0.16, -0.12,  0.04]])
+\end{verbatim}
+\end{codeoutput}
+\end{codecell}
+\begin{codecell}
+\begin{codeinput}
+\begin{lstlisting}
+linalg.svd(A)
+\end{lstlisting}
+\end{codeinput}
+\begin{codeoutput}
+\begin{verbatim}
+(array([[-0.52956045,  0.04298197, -0.84718255],
+       [-0.34647857, -0.92256717,  0.16977167],
+       [-0.77428569,  0.38343496,  0.50344742]]),
+ array([ 11.13385134,   4.2134737 ,   0.53291053]),
+ array([[-0.24888863, -0.50691635, -0.82528193],
+       [-0.24570758, -0.79117262,  0.56006577],
+       [ 0.93684696, -0.34217203, -0.07236068]]))
+\end{verbatim}
+\end{codeoutput}
+\end{codecell}
+\begin{codecell}
+\begin{codeinput}
+\begin{lstlisting}
+linalg.toeplitz([1,2,3],[1,2,4,5,6])
+\end{lstlisting}
+\end{codeinput}
+\begin{codeoutput}
+\begin{verbatim}
+array([[1, 2, 4, 5, 6],
+       [2, 1, 2, 4, 5],
+       [3, 2, 1, 2, 4]])
+\end{verbatim}
+\end{codeoutput}
+\end{codecell}
+\newpage
+
+\section{Pattern Formation}
 
 \begin{codecell}
 \begin{codeinput}
@@ -693,19 +1348,16 @@ plt.close()
 \end{codeinput}
 \begin{codeoutput}
 \begin{center}
-\includegraphics[width=6in]{01_Introducing_Python_files/01_Introducing_Python_fig_00.png}
+\includegraphics[width=6in]{01_Introducing_Python_files/01_Introducing_Python_fig_07.png}
 \par
 \end{center}
 \begin{verbatim}
-<matplotlib.figure.Figure at 0x112b4cdd0>
+<matplotlib.figure.Figure at 0x1077bb490>
 \end{verbatim}
 \begin{center}
-\includegraphics[width=6in]{01_Introducing_Python_files/01_Introducing_Python_fig_01.png}
+\includegraphics[width=6in]{01_Introducing_Python_files/01_Introducing_Python_fig_08.png}
 \par
 \end{center}
-\begin{verbatim}
-<matplotlib.figure.Figure at 0x111b64b90>
-\end{verbatim}
 \end{codeoutput}
 \end{codecell}
 \end{document}
